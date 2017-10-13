@@ -10,8 +10,8 @@ node("paas-sig-ci-slave01") {
           poll: true,
           scm: [$class: 'GitSCM',
             branches: [
-              [name: 'remotes/origin/master'],
-              [name: 'remotes/detiber/multiarch']
+              [name: 'origin/master'],
+              [name: 'detiber/multiarch']
             ],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
