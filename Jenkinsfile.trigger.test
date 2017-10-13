@@ -9,25 +9,26 @@ node("paas-sig-ci-slave01") {
           changelog: true,
           poll: true,
           scm: [$class: 'GitSCM',
-            branches: [[name: 'detiber/multiarch']],
+            branches: [[name: 'origin/master']],
             doGenerateSubmoduleConfigurations: false,
+            browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/openshift/origin']
             extensions: [
               [$class: 'CleanBeforeCheckout'],
-              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin'],
-	      [$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeStrategy: 'MergeCommand.Strategy', mergeTarget: 'master']]
+              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin']
             ],
             gitTool: 'Default',
             submoduleCfg: [],
             userRemoteConfigs: [
               [
-	        name: 'origin',
-		refspec: '+refs/heads/master:refs/remotes/origin/master',
-		url: 'https://github.com/openshift/origin.git'
-	      ],
+                name: 'origin',
+                refspec: '+refs/heads/master:refs/remotes/origin/master',
+                url: 'https://github.com/openshift/origin.git'
+              ],
               [
-	        name: 'detiber',
-		refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
-		url: 'https://github.com/detiber/origin.git']
+                name: 'detiber',
+                refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
+                url: 'https://github.com/detiber/origin.git'
+              ]
             ]
           ]
         )
