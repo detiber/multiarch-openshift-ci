@@ -9,10 +9,7 @@ node("paas-sig-ci-slave01") {
           changelog: true,
           poll: true,
           scm: [$class: 'GitSCM',
-            branches: [
-              [name: 'origin/master'],
-              [name: 'detiber/multiarch']
-            ],
+            branches: [[name: 'detiber/multiarch']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
               [$class: 'CleanBeforeCheckout'],
