@@ -21,8 +21,15 @@ node("paas-sig-ci-slave01") {
             gitTool: 'Default',
             submoduleCfg: [],
             userRemoteConfigs: [
-              [name: 'origin', 'url': 'https://github.com/openshift/origin.git'],
-              [name: 'detiber', 'url': 'https://github.com/detiber/origin.git']
+              [
+	        name: 'origin',
+		refspec: '+refs/heads/master:refs/remotes/origin/master',
+		url: 'https://github.com/openshift/origin.git'
+	      ],
+              [
+	        name: 'detiber',
+		refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
+		url: 'https://github.com/detiber/origin.git']
             ]
           ]
         )
