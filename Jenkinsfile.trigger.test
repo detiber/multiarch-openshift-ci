@@ -1,0 +1,10 @@
+node("paas-sig-ci-slave01") {
+  ansiColor('xterm') {
+    timestamps {
+      echo 'Hello Trigger'
+      sh('''#!/usr/bin/bash -xeu
+        echo env | sort
+      ''')
+    }
+  }
+}
