@@ -6,7 +6,7 @@ node("paas-sig-ci-slave01") {
         sh('''#!/usr/bin/bash -xeu
           env | sort
         ''')
-	echo 'Getting triggered here'
+	echo 'Getting triggered here again'
       }
     }
   }
