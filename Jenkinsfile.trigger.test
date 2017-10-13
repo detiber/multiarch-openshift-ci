@@ -5,25 +5,27 @@ node("paas-sig-ci-slave01") {
         echo 'Hello Trigger'
       }
       stage('checkout repos') {
-        changelog: true,
-        poll: true,
-        scm: [$class: 'GitSCM',
-          branches: [
-            [name: 'remotes/origin/master'],
-            [name: 'remotes/detiber/multiarch']
-          ],
-          doGenerateSubmoduleConfigurations: false,
-          extensions: [
-            [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin'],
-            [$class: 'CleanBeforeCheckout']
-          ],
-          gitTool: 'Default',
-          submoduleCfg: [],
-          userRemoteConfigs: [
-            [name: 'origin', 'url': 'https://github.com/openshift/origin.git'],
-            [name: 'detiber', 'url': 'https://github.com/detiber/origin.git']
+        checkout(
+          changelog: true,
+          poll: true,
+          scm: [$class: 'GitSCM',
+            branches: [
+              [name: 'remotes/origin/master'],
+              [name: 'remotes/detiber/multiarch']
+            ],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin'],
+              [$class: 'CleanBeforeCheckout']
+            ],
+            gitTool: 'Default',
+            submoduleCfg: [],
+            userRemoteConfigs: [
+              [name: 'origin', 'url': 'https://github.com/openshift/origin.git'],
+              [name: 'detiber', 'url': 'https://github.com/detiber/origin.git']
+            ]
           ]
-        ]
+        )
       }
     }
   }
