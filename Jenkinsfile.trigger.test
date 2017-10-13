@@ -17,7 +17,7 @@ node("paas-sig-ci-slave01") {
             extensions: [
               [$class: 'CleanBeforeCheckout'],
               [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin'],
-	      [$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeStrategy: <object of type org.jenkinsci.plugins.gitclient.MergeCommand.Strategy>, mergeTarget: 'master']]
+	      [$class: 'PreBuildMerge', options: [fastForwardMode: 'FF', mergeRemote: 'origin', mergeStrategy: 'MergeCommand.Strategy', mergeTarget: 'master']]
             ],
             gitTool: 'Default',
             submoduleCfg: [],
