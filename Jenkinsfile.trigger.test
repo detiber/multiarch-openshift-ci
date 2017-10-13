@@ -4,7 +4,7 @@ node("paas-sig-ci-slave01") {
       stage('test') {
         echo 'Hello Trigger'
         sh('''#!/usr/bin/bash -xeu
-          echo env | sort
+          env | sort
         ''')
       }
     }
