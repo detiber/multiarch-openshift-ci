@@ -16,7 +16,7 @@ node("paas-sig-ci-slave01") {
             doGenerateSubmoduleConfigurations: false,
             extensions: [
               [$class: 'RelativeTargetDirectory', relativeTargetDir: 'origin'],
-              [$class: 'CloneOption', depth: 0, honorRefspec: true, noTags: false, reference: '', shallow: false]],
+              [$class: 'CloneOption', depth: 0, honorRefspec: true, noTags: false, reference: '', shallow: false],
               [$class: 'CleanBeforeCheckout']
             ],
             gitTool: 'Default',
