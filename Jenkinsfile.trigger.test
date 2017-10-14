@@ -46,6 +46,8 @@ node("paas-sig-ci-slave01") {
       }
 
       stage('do something'){
+        task 'before arches'
+	echo 'before arches'
         withArches(
           ['x86_64', 'aarch64', 'ppc64le', 's390x'],
           {
