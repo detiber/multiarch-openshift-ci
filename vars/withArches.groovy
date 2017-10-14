@@ -6,9 +6,5 @@ def call(List<String> arches=[], Closure body) {
       body()
     }
   }
-  task 'before parallel'
-  echo 'before parallel'
   parallel arch_tasks
-  task 'after parallel'
-  echo 'after parallel'
 }
