@@ -2,9 +2,6 @@ node("paas-sig-ci-slave01") {
   ansiColor('xterm') {
     timestamps {
       stage('init') {
-        echo 'Hello Trigger'
-      }
-      stage('checkout repos') {
         checkout(
           changelog: true,
           poll: true,
@@ -32,6 +29,11 @@ node("paas-sig-ci-slave01") {
             ]
           ]
         )
+	sh('''#!/usr/bin/bash -xeu
+              pushd origin
+              git merge detiber/multiarch
+	      popd
+	''')
       }
     }
   }
