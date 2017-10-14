@@ -1,3 +1,6 @@
+library identifier: "multiarch-openshift-ci@trigger-test",
+        retriever: modernSCM([$class: 'GitSCMSource', remote: "https://github.com/detiber/multiarch-openshift-ci"])
+
 node("paas-sig-ci-slave01") {
   ansiColor('xterm') {
     timestamps {
