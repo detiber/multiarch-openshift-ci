@@ -42,18 +42,19 @@ node("paas-sig-ci-slave01") {
            ''')
       }
 
-      def arches=['x86_64', 'aarch64', 'ppc64le', 's390x']
-      def per_arch_jobs=[:]
-      for (arch in arches) {
-        per_arch_jobs[arch] = {
-          stage('do something') {
-             echo 'do something ${arch}'
+      stage('do something'){
+        withArches(
+          ['x86_64', 'aarch64', 'ppc64le', 's390x'],
+          {
+            echo 'do something'
           }
-        }
+        )
       }
-      parallel per_arch_jobs
       stage('post') {
+        task 'hi'
         echo 'hi'
+        task 'bye'
+        echo 'bye'
       }
     }
   }
