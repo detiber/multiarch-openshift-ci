@@ -51,6 +51,7 @@ node("paas-sig-ci-slave01") {
                    name: 'detiber',
                    refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
                    url:'https://github.com/detiber/origin.git'
+                ]
               ]
             ]
           )
