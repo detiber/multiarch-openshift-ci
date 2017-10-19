@@ -45,13 +45,12 @@ node("paas-sig-ci-slave01") {
            ''')
       }
 
-      stage('do something'){
-        def arches=['x86_64', 'ppc64le']
-	arch_tasks=[:]
-        for (arch in arches) {
-          def arch_name = arch
-          arch_tasks[arch] = {
-            task arch_name
+      def arches=['x86_64', 'ppc64le']
+      arch_tasks=[:]
+      for (arch in arches) {
+        def arch_name = arch
+        arch_tasks[arch] = {
+          stage(arch_name){
             build_result = build(
               job: 'paas-multiarch-test2',
               parameters: [
@@ -59,9 +58,9 @@ node("paas-sig-ci-slave01") {
               ]
             )
           }
-	}
-	parallel arch_tasks
+        }
       }
+      parallel arch_tasks
     }
   }
 }
