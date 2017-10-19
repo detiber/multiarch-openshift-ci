@@ -18,11 +18,16 @@ library identifier: "multiarch-openshift-ci@trigger-test",
                               remote: "https://github.com/detiber/multiarch-openshift-ci"])
 
 node("paas-sig-ci-slave01") {
-  echo 'hi'
-//  ansiColor('xterm') {
-//    timestamps {
-//      withEnv(["PROVISION_STAGE_NAME=provision", "DEPROVISION_STAGE_NAME=deprovision"]) {
-//        stage('pre') {
+  ansiColor('xterm') {
+    timestamps {
+      withEnv(["PROVISION_STAGE_NAME=provision", "DEPROVISION_STAGE_NAME=deprovision"]) {
+        stage('pre') {
+          echo 'hi'
+        }
+      }
+    }
+  }
+}
 //          checkout(
 //            changelog: true,
 //            poll: true,
@@ -172,4 +177,4 @@ node("paas-sig-ci-slave01") {
 //      }
 //    }
 //  }
-}
+//}
