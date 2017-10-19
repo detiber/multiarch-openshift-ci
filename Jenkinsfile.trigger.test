@@ -46,7 +46,7 @@ node("paas-sig-ci-slave01") {
       }
 
       stage('do something'){
-        def arches=['x86_64', 'aarch64', 'ppc64le', 's390x']
+        def arches=['x86_64', 'ppc64le']
 	arch_tasks=[:]
         for (arch in arches) {
           def arch_name = arch
