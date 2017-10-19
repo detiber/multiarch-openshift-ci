@@ -18,49 +18,50 @@ library identifier: "multiarch-openshift-ci@trigger-test",
                               remote: "https://github.com/detiber/multiarch-openshift-ci"])
 
 node("paas-sig-ci-slave01") {
-  ansiColor('xterm') {
-    timestamps {
-      withEnv(["PROVISION_STAGE_NAME=provision", "DEPROVISION_STAGE_NAME=deprovision"]) {
-        stage('pre') {
-          checkout(
-            changelog: true,
-            poll: true,
-            scm: [
-              $class: 'GitSCM',
-              branches: [
-                [name:'origin/master']
-              ],
-              doGenerateSubmoduleConfigurations: false,
-              browser: [
-                $class: 'GithubWeb',
-                repoUrl: 'https://github.com/openshift/origin'
-              ],
-              extensions: [
-                [$class: 'CleanBeforeCheckout']
-                [$class: 'RelativeTargetDirectory', relativeTargetDir:'origin'],
-              ],
-              gitTool: 'Default',
-              submoduleCfg: [],
-              userRemoteConfigs: [
-                [
-                   name: 'origin',
-                   refspec: '+refs/heads/master:refs/remotes/origin/master',
-                   url:'https://github.com/openshift/origin.git'
-                ],
-                [
-                   name: 'detiber',
-                   refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
-                   url:'https://github.com/detiber/origin.git'
-                ]
-              ]
-            ]
-          )
-          sh('''#!/usr/bin/bash -xeu
-                pushd origin
-                git merge detiber/multiarch
-                popd
-             ''')
-        }
+  echo 'hi'
+//  ansiColor('xterm') {
+//    timestamps {
+//      withEnv(["PROVISION_STAGE_NAME=provision", "DEPROVISION_STAGE_NAME=deprovision"]) {
+//        stage('pre') {
+//          checkout(
+//            changelog: true,
+//            poll: true,
+//            scm: [
+//              $class: 'GitSCM',
+//              branches: [
+//                [name:'origin/master']
+//              ],
+//              doGenerateSubmoduleConfigurations: false,
+//              browser: [
+//                $class: 'GithubWeb',
+//                repoUrl: 'https://github.com/openshift/origin'
+//              ],
+//              extensions: [
+//                [$class: 'CleanBeforeCheckout']
+//                [$class: 'RelativeTargetDirectory', relativeTargetDir:'origin'],
+//              ],
+//              gitTool: 'Default',
+//              submoduleCfg: [],
+//              userRemoteConfigs: [
+//                [
+//                   name: 'origin',
+//                   refspec: '+refs/heads/master:refs/remotes/origin/master',
+//                   url:'https://github.com/openshift/origin.git'
+//                ],
+//                [
+//                   name: 'detiber',
+//                   refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
+//                   url:'https://github.com/detiber/origin.git'
+//                ]
+//              ]
+//            ]
+//          )
+//          sh('''#!/usr/bin/bash -xeu
+//                pushd origin
+//                git merge detiber/multiarch
+//                popd
+//             ''')
+//        }
 //        withCiHost {
 //          stage('prep') {
 //            remoteCommands([
@@ -168,7 +169,7 @@ node("paas-sig-ci-slave01") {
 //            failed_stages += 'e2e'
 //          }
 //        }
-      }
-    }
-  }
+//      }
+//    }
+//  }
 }
