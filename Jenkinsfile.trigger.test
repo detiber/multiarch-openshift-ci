@@ -50,15 +50,14 @@ node("paas-sig-ci-slave01") {
         withArches(
           arches,
           {
-            echo 'do something'
+            build_result = build(
+              job: 'paas-multiarch-test2',
+              parameters: [
+                string(name: 'ARCH', value: task_name)
+              ]
+            )
           }
         )
-      }
-      stage('post') {
-        task 'hi'
-        echo 'hi'
-        task 'bye'
-        echo 'bye'
       }
     }
   }
