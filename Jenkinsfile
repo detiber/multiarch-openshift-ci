@@ -167,6 +167,12 @@ node("paas-sig-ci-slave01") {
           catch (exc) {
             failed_stages += 'e2e'
           }
+          sh('''#!/usr/bin/bash -xeu
+                pushd origin
+                make clean
+                popd
+             ''')
+
         }
       }
     }
