@@ -5,8 +5,8 @@ def call(Closure body) {
             if [[ "${ARCH}" == "x86_64" ]]; then
               ssid=$(cico node get -f value -c comment --retry-count 60 --retry-interval 60)
             else
-              #ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.medium --retry-count 60 --retry-interval 60)
-              ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.small --retry-count 60 --retry-interval 60)
+              ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.medium --retry-count 60 --retry-interval 60)
+              #ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.small --retry-count 60 --retry-interval 60)
             fi
             if [[ -z "${ssid:-}" ]]; then
               echo "Failed to provision duffy host"

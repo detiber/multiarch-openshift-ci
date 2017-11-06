@@ -6,16 +6,6 @@ properties([
       description: 'Architecture'
     ),
     string(
-      name: 'ORIGIN_REPO',
-      description: 'Origin repo',
-      defaultValue: 'https://github.com/openshift/origin.git'
-    ),
-    string(
-      name: 'ORIGIN_BRANCH',
-      description: 'Origin branch',
-      defaultValue: 'master'
-    ),
-    string(
       name: 'OS_BUILD_ENV_IMAGE',
       description: 'openshift-release image',
       defaultValue: 'openshiftmultiarch/origin-release:golang-1.8'
@@ -23,15 +13,9 @@ properties([
   ])
 ])
 
-// Import the CentOS/cico-pipeline-library
-//library identifier: "cico-pipeline-library@master",
-//        retriever: modernSCM([$class: 'GitSCMSource',
-//                              remote: "https://github.com/CentOS/cico-pipeline-library"])
-//import org.centos.*
-
-library identifier: "multiarch-openshift-ci@master",
+library identifier: "multiarch-openshift-ci@trigger-test",
         retriever: modernSCM([$class: 'GitSCMSource',
-                              remote: "https://github.com/CentOS-PaaS-SIG/multiarch-openshift-ci"])
+                              remote: "https://github.com/detiber/multiarch-openshift-ci"])
 
 node("paas-sig-ci-slave01") {
   ansiColor('xterm') {
@@ -41,21 +25,38 @@ node("paas-sig-ci-slave01") {
           checkout(
             changelog: true,
             poll: true,
-            scm: [$class: 'GitSCM',
-                  branches: [[name:'*/${ORIGIN_BRANCH}']],
-                  doGenerateSubmoduleConfigurations: false,
-                  extensions: [
-                    [$class: 'RelativeTargetDirectory', relativeTargetDir:'origin'],
-                    [$class: 'CleanBeforeCheckout']
-                  ],
-                  gitTool: 'Default',
-                  submoduleCfg: [],
-                  userRemoteConfigs: [[url:'${ORIGIN_REPO}']]]
+            scm: [
+              $class: 'GitSCM',
+              branches: [
+                [name:'origin/master']
+              ],
+              doGenerateSubmoduleConfigurations: false,
+              browser: [
+                $class: 'GithubWeb',
+                repoUrl: 'https://github.com/openshift/origin'
+              ],
+              extensions: [
+                [$class: 'CleanBeforeCheckout'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir:'origin']
+              ],
+              gitTool: 'Default',
+              submoduleCfg: [],
+              userRemoteConfigs: [
+                [
+                   name: 'origin',
+                   refspec: '+refs/heads/master:refs/remotes/origin/master',
+                   url:'https://github.com/openshift/origin.git'
+                ],
+                [
+                   name: 'detiber',
+                   refspec: '+refs/heads/multiarch:refs/remotes/detiber/multiarch',
+                   url:'https://github.com/detiber/origin.git'
+                ]
+              ]
+            ]
           )
           sh('''#!/usr/bin/bash -xeu
                 pushd origin
-                git remote add detiber https://github.com/detiber/origin.git || true
-                git fetch detiber
                 git merge detiber/multiarch
                 popd
              ''')
@@ -150,7 +151,7 @@ node("paas-sig-ci-slave01") {
                 remoteCommands([
                   "cd origin; OS_BUILD_ENV_IMAGE=${OS_BUILD_ENV_IMAGE} hack/env JUNIT_REPORT=true OS_BUILD_ENV_PRESERVE=_output/local/bin/linux/${go_arch}/end-to-end.test hack/env make build-router-e2e-test",
                   "cd origin; OS_BUILD_ENV_IMAGE=${OS_BUILD_ENV_IMAGE} hack/env JUNIT_REPORT=true OS_BUILD_ENV_PRESERVE=_output/local/bin/linux/${go_arch}/etcdhelper hack/env make build WHAT=tools/etcdhelper",
-		  "OPENSHIFT_SKIP_BUILD='true' JUNIT_REPORT='true' make test-end-to-end -o build"
+                  "OPENSHIFT_SKIP_BUILD='true' JUNIT_REPORT='true' make test-end-to-end -o build"
                 ])
               }
               catch (exc) {
@@ -166,6 +167,12 @@ node("paas-sig-ci-slave01") {
           catch (exc) {
             failed_stages += 'e2e'
           }
+          sh('''#!/usr/bin/bash -xeu
+                pushd origin
+                make clean
+                popd
+             ''')
+
         }
       }
     }
