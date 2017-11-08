@@ -13,7 +13,7 @@ properties([
   ])
 ])
 
-library identifier: "multiarch-openshift-ci@trigger-test",
+library identifier: "multiarch-openshift-ci@master",
         retriever: modernSCM([$class: 'GitSCMSource',
                               remote: "https://github.com/CentOS-PaaS-SIG/multiarch-openshift-ci"])
 
