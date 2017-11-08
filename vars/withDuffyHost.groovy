@@ -3,11 +3,15 @@ def call(Closure body) {
     stage("${PROVISION_STAGE_NAME}"){
       sh('''#!/usr/bin/bash -xeu
             if [[ "${ARCH}" == "x86_64" ]]; then
-              ssid=$(cico node get -f value -c comment --retry-count 60 --retry-interval 60)
+              ssid=$(cico node get -f value -c comment)
+            elif [[ "${ARCH}" == "aarch64" ]]; then
+              for flavor in xram.small xram.medium xram.large; do
+                if [[ -z "${ssid:-}" ]]; then
+                  ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor "${flavor}")
+                fi
+              done
             else
-              ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.large --retry-count 60 --retry-interval 60)
-              #ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.medium --retry-count 60 --retry-interval 60)
-              #ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor xram.small --retry-count 60 --retry-interval 60)
+              ssid=$(cico node get -f value -c comment --arch "${ARCH}")
             fi
             if [[ -z "${ssid:-}" ]]; then
               echo "Failed to provision duffy host"
