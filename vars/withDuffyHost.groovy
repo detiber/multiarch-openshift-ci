@@ -4,7 +4,7 @@ def call(Closure body) {
       sh('''#!/usr/bin/bash -xeu
             if [[ "${ARCH}" == "x86_64" ]]; then
               ssid=$(cico node get -f value -c comment)
-            elif [[ "${ARCH}" == "aarch64" ]]; then
+            elif [[ "${ARCH}" == "ppc64le" ]]; then
               for flavor in xram.small xram.medium xram.large; do
                 if [[ -z "${ssid:-}" ]]; then
                   ssid=$(cico node get -f value -c comment --arch "${ARCH}" --flavor "${flavor}")
